@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Animation</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffecf2;
+            overflow: hidden;
+            margin: 0;
+            position: relative;
+        }
+        .header-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff3333;
+            margin-bottom: 50px;
+        }
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: #ff6666;
+            transform: rotate(-45deg);
+            animation: heartbeat 1.5s infinite ease-in-out;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff6666;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+        .heart-text {
+            position: absolute;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            transform: rotate(45deg);
+            z-index: 11;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1) rotate(-45deg); }
+            10% { transform: scale(1.5) rotate(-45deg); }
+        }
+        .small-heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff9999;
+            transform: rotate(-45deg);
+            animation: float 1.5s ease-out forwards;
+            z-index: 5;
+        }
+        .small-heart::before,
+        .small-heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff9999;
+            border-radius: 50%;
+        }
+        .small-heart::before {
+            top: -10px;
+            left: 0;
+        }
+        .small-heart::after {
+            left: 10px;
+            top: 0;
+        }
+        @keyframes float {
+            0% { transform: scale(1) rotate(-45deg); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(1.5) rotate(-45deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-text">Trái tim của MẠNH</div>
+    <div id="hearts-container"></div>
+    <div class="heart">
+        <div class="heart-text">khlinhh</div>
+    </div>
+    <script>
+        function createSmallHeart() {
+            for (let i = 0; i < 7; i++) {
+                const heart = document.createElement("div");
+                heart.classList.add("small-heart");
+                document.getElementById("hearts-container").appendChild(heart);
+                
+                const bigHeart = document.querySelector(".heart");
+                const rect = bigHeart.getBoundingClientRect();
+                heart.style.left = rect.left + rect.width / 2 + "px";
+                heart.style.top = rect.top + rect.height / 2 + "px";
+                
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 200 + 150;
+                heart.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+                heart.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 1500);
+            }
+        }
+        
+        setInterval(createSmallHeart, 120);
+    </script>
+</body>
+  </html>
+  
